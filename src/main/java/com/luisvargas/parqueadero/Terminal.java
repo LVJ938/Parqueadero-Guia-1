@@ -84,6 +84,27 @@ public class Terminal {
                         case 1:
                             IngresarAutomovil();
                             break;
+                        case 2:
+                           IngresarCamion();
+                           break;
+                        case 3:
+                           IngresarMotocicleta();
+                           break;
+                        case 4:
+                           RegistrarSalida();
+                           break;
+                        case 5:
+                           ImprimirEstado();
+                           break;
+                        case 6:
+                          ImprimirReporteDelDia();
+                          break;
+                        case 7:
+                          Terminar();
+                          break;
+                        default:
+                            
+                            break;
                     }
                     
                     
@@ -119,8 +140,64 @@ public class Terminal {
 
             System.out.println("Automovil con placa '" + placa + "' ingresado...");
     }
-	
     
+    public void IngresarCamion() throws Exception {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Ingrese la marca del camion: ");
+            String marca = scanner.nextLine();
+
+            System.out.println("Ingrese el modelo del camion: ");
+            String modelo = scanner.nextLine();
+
+            System.out.println("Ingrese la placa del camion: ");
+            String placa = scanner.nextLine();
+
+            System.out.println("Ingrese la capacidad de carga del camion: ");
+            String stringCapacidadDeCarga = scanner.nextLine();
+
+            try {
+                    double capacidadDeCarga = Double.parseDouble(stringCapacidadDeCarga);
+
+                    Camion c = new Camion(LocalDateTime.now(), marca, modelo, placa, capacidadDeCarga);
+
+                    this.parqueadero.registrarEntrada(c);
+
+                    System.out.println("Camion con placa '" + placa + "' y capacidad de '" + capacidadDeCarga + "' ingresado...");
+            } catch (NumberFormatException e) {
+                    System.out.println("La capacidad de carga ingresada no es un numero valido...");
+                    throw new Exception();
+            }
+    }
+	
+    public void IngresarMotocicleta() throws Exception {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Ingrese la marca de la motocicleta: ");
+            String marca = scanner.nextLine();
+
+            System.out.println("Ingrese el modelo de la motocicleta: ");
+            String modelo = scanner.nextLine();
+
+            System.out.println("Ingrese la placa de la motocicleta: ");
+            String placa = scanner.nextLine();
+
+            System.out.println("Ingrese el cilindraje de la motocicleta: ");
+            String stringCilindraje = scanner.nextLine();
+
+            try {
+                    int cilindraje = Integer.parseInt(stringCilindraje);
+
+                    Motocicleta m = new Motocicleta(LocalDateTime.now(), marca, modelo, placa, cilindraje);
+
+                    this.parqueadero.registrarEntrada(m);
+
+                    System.out.println("Motocicleta con placa '" + placa + "' y cilindraje de '" + cilindraje + " CC' ingresado...");
+                } catch (NumberFormatException e) {
+                    System.out.println("El cilindraje ingresado no es un numero valido...");
+                    throw new Exception();
+            }
+    }
 
     
 
@@ -139,8 +216,15 @@ public class Terminal {
 
             System.out.println("El vehiculo de placa '" + vehiculo.getPlaca() + "' debe pagar un total de: $" + precio);
     }
+    
+public void ImprimirReporteDelDia() {
+            ImprimirSeccion(false, "Reporte del dia", this.parqueadero.generarReporteDelDia());
+    }
 
-   
+   public void Terminar() {
+            System.out.println("Cerrando parqueadero, hasta la proxima...");
+            this.ejecutando = false;
+    }
 	
 	
 }
